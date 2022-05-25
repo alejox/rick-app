@@ -1,35 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Characters = () => {
+  const [characters, setCharacters] = useState([]);
 
-    const [character, setCharacter] = useState({});
+  useEffect(() => {
+    axios
+      .get("https://rickandmortyapi.com/api/character")
+      .then((res) => setCharacters(res.data.results));
+  }, []);
 
-    useEffect(() => {
-        axios.get('https://rickandmortyapi.com/api/character')
-            .then(res => setCharacter(res.data.results));
-        },[])
-
-        console.log(character);
-
-    return (
-        <div>
-            <h2>Characters</h2>
-            <ul className="list-group">
-        {character.map((character
-        
-        
-        
-        
-        ) => (
-            <li key={character.id} className="list-group-item">
+  return (
+    <div>
+      <h1>Characters</h1>
+      <ul className="list-group">
+        {characters.map((character) => (
+          <li key={character.id} className="list-group-item">
             <Link to={`/characters/${character.id}`}>{character.name}</Link>
-            </li>
+          </li>
         ))}
-        </ul>
-        </div>
-    );
+      </ul>
+    </div>
+  );
 };
 
 export default Characters;
